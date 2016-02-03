@@ -1,0 +1,27 @@
+{
+  "name": "spline-emitter",
+  "version": "1.0.0",
+  "description": "Given down, move, and up commands (as in 'mousedown', 'mousemove', and 'mouseupp'), emits splines that result from interpolating that movement.",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jimkang/spline-emitter.git"
+  },
+  "keywords": [],
+  "author": "Jim Kang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jimkang/spline-emitter/issues"
+  },
+  "homepage": "https://github.com/jimkang/spline-emitter",
+  "devDependencies": {
+    "tape": "^3.0.3"
+  },
+  "dependencies": {
+    "d3-shape": "^0.5.1",
+    "lodash.curry": "^3.1.0"
+  }
+}
