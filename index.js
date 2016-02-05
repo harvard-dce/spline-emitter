@@ -2,12 +2,12 @@ var curry = require('lodash.curry');
 var d3 = require('d3-shape');
 
 function SplineEmitter(createOpts) {
-  var cutInterval = 500;
+  var updateInterval = 500;
   var doc;
   var root;
 
   if (createOpts) {
-    cutInterval = createOpts.cutInterval;
+    updateInterval = createOpts.updateInterval;
 
     if (createOpts.bindToDOM) {
       doc = createOpts.bindToDOM.document;
@@ -18,6 +18,7 @@ function SplineEmitter(createOpts) {
   var points = [];
   var recording = false;
   var listeners = [];
+  var splineCount = 0;
 
   var line = d3.line();
   line.curve(d3.curveBasis);
@@ -30,7 +31,7 @@ function SplineEmitter(createOpts) {
 
   function start(coords) {
     recording = true;
-    setTimeout(cutPath, cutInterval);
+    setTimeout(emitCurrentSpline, updateInterval);
     move(coords);
   }
 
@@ -61,14 +62,30 @@ function SplineEmitter(createOpts) {
 
   function cutPath() {
     if (points.length > 0) {
-      var spline = line(points);
+      emitCurrentSpline(true);
       points.length = 0;
-      emitSplineToListeners(spline);
-
-      if (recording) {
-        setTimeout(cutPath, cutInterval);
-      }
+      splineCount += 1;
     }
+  }
+
+  function emitCurrentSpline(completed) {
+    if (!completed) {
+      completed = false;
+    }
+    if (points.length > 0) {
+      emitSplineToListeners({
+        id: getCurrentSplineId(),
+        completed: completed,
+        path: line(points)
+      });
+    }
+    if (recording) {
+      setTimeout(emitCurrentSpline, updateInterval);
+    }
+  }
+
+  function getCurrentSplineId() {
+    return 'spline-' + splineCount;
   }
 
   function addEventListener(eventType, listener) {
