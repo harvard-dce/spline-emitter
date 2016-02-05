@@ -1,24 +1,18 @@
 var SplineEmitter = require('../index');
 // var d3 = require('d3-selection');
 
+var svgNS = 'http://www.w3.org/2000/svg';
 
 var rootEl = document.body;
 
-var board = document.createElement('div');
+var board = document.createElementNS(svgNS, 'svg');
 board.style.width = '100%';
 board.style.height = '500px';
-board.style.backgroundColor = 'green';
+board.style.border = '1px darkblue solid';
 rootEl.appendChild(board);
 
-var svgNS = 'http://www.w3.org/2000/svg';
-
-var feedbackBoard = document.createElementNS(svgNS, 'svg');
-feedbackBoard.style.width = '100%';
-feedbackBoard.style.height = '500px';
-rootEl.appendChild(feedbackBoard);
-
 var emitter = SplineEmitter({
-  cutInterval: 10000,
+  cutInterval: 400,
   bindToDOM: {
     document: document,
     root: rootEl
@@ -46,5 +40,5 @@ function renderSpline(spline) {
   path.style.fill = 'none';
   path.style.strokeWidth = '1';
   path.style.stroke = 'black';
-  feedbackBoard.appendChild(path);
+  board.appendChild(path);
 }
