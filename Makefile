@@ -6,3 +6,6 @@ pushall:
 
 run-workspace:
 	wzrd tools/workspace.js -- -d
+
+build-demo:
+	browserify tools/workspace.js > demo.js

@@ -10,6 +10,11 @@ board.style.height = '500px';
 board.style.border = '1px darkblue solid';
 rootEl.appendChild(board);
 
+var splineList = document.createElement('ol');
+splineList.setAttribute('id', 'spline-list');
+
+rootEl.appendChild(splineList);
+
 var emitter = SplineEmitter({
   updateInterval: 100,
   bindToDOM: {
@@ -24,6 +29,9 @@ emitter.on('spline', renderSpline);
 function logSpline(spline) {
   if (spline.completed) {
     console.log('Spline completed:', spline.path);
+    var listItem = document.createElement('li');
+    listItem.textContent = JSON.stringify(spline, null, '  ');
+    splineList.appendChild(listItem);
   }
 }
 
